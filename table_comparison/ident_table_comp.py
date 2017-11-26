@@ -3,7 +3,6 @@ ident_table_comp.py is intended to check that two tables contain equivalent data
 This program does not check only for identical entries,
     but compensates for equivalent entries stored in different formats,
         e.g., 1.0 = 1, 20170814 = 8/14/2017, repeats in primary keys
-
 Author: Jack Jacobs
 """
 
@@ -28,7 +27,7 @@ def table_format(csv_path):
 
     for row in new_data:
         """ Data conversion config
-        THIS COULD BE A SEPARATE FUNCTION LATER """
+        THIS COULD BE A SEPARATE FUNCTION (or file) LATER """
         row[2] = int(row[2])
         row[3] = int(row[3])
         row[5] = int(row[5])
@@ -42,6 +41,7 @@ def ident_comp(file_a, file_b):
     data_a, data_b = table_format(file_a), table_format(file_b)
     match = []
     error = []
+    header_a, header_b = data_a.pop(0), data_b.pop(0)
 
     if len(data_a) == len(data_b) and len(data_a[0]):
         if len(data_a[0]) == len(data_b[0]):    
@@ -50,9 +50,10 @@ def ident_comp(file_a, file_b):
                 b_row = data_b[row]
                 for item in range(len(a_row)):
                     if a_row[item] == b_row[item]:
-                        match.append([data_a[0][item], (row + 1)])
+                        match.append([header_a[item], (row + 2)])
                     else:
-                        error.append([data_a[0][item], (row + 1), data_a[row][item], data_b[row][item]])
+                        error.append([header_a[item], "Row: %s" % (row + 2), \
+                        "Master: %s" % data_a[row][item], "Test: %s" % data_b[row][item]])
                 
             error_ratio = len(error) / (len(error) + len(match))
             if error_ratio == 0:
@@ -71,9 +72,3 @@ def ident_comp(file_a, file_b):
         print("Table B rows: %s" % len(data_b))
 
 ident_comp(a_path, b_path)
-
-"""
-data_a & data_b are lists of lists which each equal one CSV
-the ident_comp(...) function should compare each item of the CSV to check for equal tables
-I'm thinking that it'll include nested for statements
-"""
