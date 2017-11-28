@@ -42,6 +42,7 @@ def table_format(csv_path):
     return(new_data)
 
 def ident_comp(master_path, test_path):
+    # This function compares two tables and spits out any errors
     master_table_data, test_table_data = table_format(master_path), table_format(test_path)
     matches = []
     errors = []
@@ -69,15 +70,18 @@ def ident_comp(master_path, test_path):
             if error_ratio == 0:
                 print("Tables are identical!")
             else:
+                # This else block handles tables of identical size with entry errors
                 print("Tables are {:.2%} mismatched.".format(error_ratio))
                 print("There are a total of {} errors:".format(len(errors)))
                 for item in errors:
                     print(item," ")
         else:
+            # This else block handles tables with same number of rows, but different number of columns
             print("Table field amounts are unequal.")
             print("Master table fields: {}".format(len(header_master)))
             print("Test fields: {}".format(len(header_test)))
     else:
+        # This else block handles tables with different number of rows
         print("Table row amounts are unequal")
         print("Master table rows: {}".format(len(master_table_data) + 1))
         print("Test table rows: {}".format(len(test_table_data) + 1))
