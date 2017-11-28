@@ -30,16 +30,12 @@ def table_format(csv_path):
     for row in new_data:
         """ Data conversion config:
         THIS COULD BE A SEPARATE FUNCTION (or file) LATER"""
-        row[2] = float(row[3])
-        row[2] = int(row[2])
+        row[2] = float(row[2])
         row[3] = float(row[3])
-        row[3] = int(row[3])
-        row[5] = float(row[3])
-        row[5] = int(row[5])
-        row[6] = float(row[3])
-        row[6] = int(row[6])
+        row[5] = float(row[5])
+        row[6] = float(row[6])
         """ These numbers are hard-coded because data conversion is unique to each master table.
-        str --> float --> int because int(str("6.0")) throws an error, int(float(str("6.0"))) does not """
+        I'm using float rather than integer because it's a more versatile real number format. """
 
     new_data.insert(0, header)
 
@@ -50,6 +46,7 @@ def ident_comp(master_path, test_path):
     matches = []
     errors = []
     header_master, header_test = master_table_data.pop(0), test_table_data.pop(0)
+    print(str(master_path))
 
     if len(master_table_data) == len(test_table_data):
         if len(header_master) == len(header_test):    
