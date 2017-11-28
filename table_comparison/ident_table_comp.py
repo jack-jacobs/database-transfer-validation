@@ -53,25 +53,28 @@ def ident_comp(master_data_path, file_b):
                 for column_index in range(len(master_row)):
                     if master_row[column_index] == test_row[column_index]:
                         matches.append([header_master[column_index], (row_index + 2)])
+                        # +2 because: 1) adding header back in, 2) starting from 1 instead of starting from 0.
                     else:
-                        errors.append([header_master[column_index], "Row: %s" % (row_index + 2), \
-                                       "Master: %s" % master_table_data[row_index][column_index], \
-                                       "Test: %s" % test_table_data[row_index][colulmn_index]])
+                        errors.append([header_master[column_index], "Row: {}".format(row_index + 2), \
+                                       "Master: {}".format(master_table_data[row_index][column_index]), \
+                                       "Test: {}".format(test_table_data[row_index][colulmn_index]))
+                        # Row +2 because: 1) adding header back in, 2) starting from 1 instead of starting from 0.
                 
             error_ratio = len(errors) / (len(errors) + len(matches))
             if error_ratio == 0:
                 print("Tables are identical!")
             else:
-                print("Tables are %.2f%% mismatched" % (error_ratio * 100))
+                print("Tables are {:.3%} mismatched.".format(error_ratio * 100))
+                print("There are a total of {} errors:".format(len(errors)))
                 for item in errors:
                     print(item," ")
         else:
             print("Table field amounts are unequal.")
-            print("Table A fields: %s" % len(master_table_data[0]))
-            print("Table B fields: %s" % len(test_table_data[0]))
+            print("Master table fields: {}".format(len(master_table_data[0])))
+            print("Test fields: {}".format(len(test_table_data[0])))
     else:
         print("Table row amounts are unequal")
-        print("Table A rows: %s" % len(master_table_data))
-        print("Table B rows: %s" % len(test_table_data))
+        print("Master table rows: {}".format(len(master_table_data)))
+        print("Test table rows: {}".format(len(test_table_data)))
 
 ident_comp(master_table_path, test_table_path)
