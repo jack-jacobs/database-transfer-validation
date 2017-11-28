@@ -46,7 +46,7 @@ def ident_comp(master_path, test_path):
     matches = []
     errors = []
     header_master, header_test = master_table_data.pop(0), test_table_data.pop(0)
-    print(str(master_path))
+    print("Comparing '{}' to master '{}'".format(test_path, master_path))
 
     if len(master_table_data) == len(test_table_data):
         if len(header_master) == len(header_test):    
